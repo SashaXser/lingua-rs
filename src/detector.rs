@@ -1425,7 +1425,7 @@ mod tests {
         let ngram_length = ngram.chars().count();
         let probability = detector_for_english_and_german.get_language_models(
             ngram_length,
-            &hashset!(language.clone()),
+            &hashset!(language),
             |language_models| {
                 language_models[ngram_length - 1]
                     .unwrap()
