@@ -1425,7 +1425,7 @@ mod tests {
         let ngram_length = ngram.chars().count();
         let probability = detector_for_english_and_german.get_language_models(
             ngram_length,
-            &hashset!(language),
+            &hashset!(language.clone()),
             |language_models| {
                 language_models[ngram_length - 1]
                     .unwrap()
@@ -1562,7 +1562,7 @@ mod tests {
         let confidence_values = detector_for_english_and_german
             .compute_language_confidence_values(text)
             .iter()
-            .map(|(language, value)| (language, round_to_two_decimal_places(*value)))
+            .map(|(language, value)| (language.clone(), round_to_two_decimal_places(*value)))
             .collect::<Vec<(Language, f64)>>();
 
         assert_eq!(confidence_values, expected_confidence_values);
@@ -1860,7 +1860,7 @@ mod tests {
         expected_language: Option<Language>,
     ) {
         let detected_language = detector_for_all_languages.detect_language_with_rules(
-            &[word.to_string()]
+            &vec![word.to_string()],
             &detector_for_all_languages.languages,
         );
         assert_eq!(
@@ -1991,7 +1991,7 @@ mod tests {
         expected_languages: HashSet<Language>,
     ) {
         let filtered_languages = detector_for_all_languages.filter_languages_by_rules(
-            &[word.to_string()]
+            &vec![word.to_string()],
             &detector_for_all_languages.languages,
         );
         assert_eq!(
