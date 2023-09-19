@@ -166,7 +166,7 @@ impl DetectorStatistics {
             (single_word_accuracy + word_pair_accuracy + sentence_accuracy) / Decimal::from(3);
 
         self.average_accuracies
-            .insert(language.clone(), average_accuracy);
+            .insert(*language, average_accuracy);
 
         if average_accuracy.is_zero() {
             return None;
@@ -204,7 +204,7 @@ impl DetectorStatistics {
         let single_words_accuracy_column = match self
             .single_word_statistic
             .language_accuracies
-            .get(&Some(language.clone()))
+            .get(&Some(*language))
         {
             Some(accuracy) => accuracy.to_string(),
             None => "NaN".to_string(),
@@ -212,7 +212,7 @@ impl DetectorStatistics {
         let word_pairs_accuracy_column = match self
             .word_pair_statistic
             .language_accuracies
-            .get(&Some(language.clone()))
+            .get(&Some(*language))
         {
             Some(accuracy) => accuracy.to_string(),
             None => "NaN".to_string(),
@@ -220,7 +220,7 @@ impl DetectorStatistics {
         let sentences_accuracy_column = match self
             .sentence_statistic
             .language_accuracies
-            .get(&Some(language.clone()))
+            .get(&Some(*language))
         {
             Some(accuracy) => accuracy.to_string(),
             None => "NaN".to_string(),
@@ -273,7 +273,7 @@ impl Statistic {
             .iter()
             .map(|(language, count)| {
                 (
-                    language.clone(),
+                    *language,
                     Decimal::from(*count) / Decimal::from(sum_of_counts) * Decimal::from(100),
                 )
             })
@@ -283,7 +283,7 @@ impl Statistic {
     fn create_report_data(&self, language: &Language, description: &str) -> (Decimal, String) {
         let accuracy = *self
             .language_accuracies
-            .get(&Some(language.clone()))
+            .get(&Some(*language))
             .unwrap_or(&Decimal::zero());
 
         let average_length =
