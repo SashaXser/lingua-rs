@@ -165,8 +165,7 @@ impl DetectorStatistics {
         let average_accuracy =
             (single_word_accuracy + word_pair_accuracy + sentence_accuracy) / Decimal::from(3);
 
-        self.average_accuracies
-            .insert(*language, average_accuracy);
+        self.average_accuracies.insert(*language, average_accuracy);
 
         if average_accuracy.is_zero() {
             return None;
