@@ -1859,10 +1859,8 @@ mod tests {
         word: &str,
         expected_language: Option<Language>,
     ) {
-        let detected_language = detector_for_all_languages.detect_language_with_rules(
-            &[word.to_string()],
-            &detector_for_all_languages.languages,
-        );
+        let detected_language = detector_for_all_languages
+            .detect_language_with_rules(&[word.to_string()], &detector_for_all_languages.languages);
         assert_eq!(
             detected_language, expected_language,
             "expected {:?} for word '{}', got {:?}",
@@ -1991,7 +1989,7 @@ mod tests {
         expected_languages: HashSet<Language>,
     ) {
         let filtered_languages = detector_for_all_languages.filter_languages_by_rules(
-            &vec![word.to_string()],
+            &[word.to_string()],
             &detector_for_all_languages.languages,
         );
         assert_eq!(
