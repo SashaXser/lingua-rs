@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run Clippy
-        run: cargo clippy --all-targets --all-features
+        run: cargo clippy --all-targets --all-features -D clippy::too-many-arguments
   formatting:
     name: cargo fmt
     runs-on: ubuntu-latest
