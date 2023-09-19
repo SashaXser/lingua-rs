@@ -1988,10 +1988,8 @@ mod tests {
         word: &str,
         expected_languages: HashSet<Language>,
     ) {
-        let filtered_languages = detector_for_all_languages.filter_languages_by_rules(
-            &[word.to_string()],
-            &detector_for_all_languages.languages,
-        );
+        let filtered_languages = detector_for_all_languages
+            .filter_languages_by_rules(&[word.to_string()], &detector_for_all_languages.languages);
         assert_eq!(
             filtered_languages, expected_languages,
             "expected {:?} for word '{}', got {:?}",
