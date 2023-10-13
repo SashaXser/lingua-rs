@@ -65,7 +65,7 @@ pub struct LanguageDetector {
 
 impl LanguageDetector {
     pub(crate) fn from(
-        languages: &HashSet<Language>,
+        languages: HashSet<Language>,
         minimum_relative_distance: f64,
         is_every_language_model_preloaded: bool,
         is_low_accuracy_mode_enabled: bool,
@@ -74,8 +74,8 @@ impl LanguageDetector {
             languages: languages.clone(),
             minimum_relative_distance,
             is_low_accuracy_mode_enabled,
-            languages_with_unique_characters: collect_languages_with_unique_characters(languages),
-            one_language_alphabets: collect_one_language_alphabets(languages),
+            languages_with_unique_characters: collect_languages_with_unique_characters(&languages),
+            one_language_alphabets: collect_one_language_alphabets(&languages),
             unigram_language_models: &UNIGRAM_MODELS,
             bigram_language_models: &BIGRAM_MODELS,
             trigram_language_models: &TRIGRAM_MODELS,
@@ -84,7 +84,7 @@ impl LanguageDetector {
         };
 
         if is_every_language_model_preloaded {
-            detector.preload_language_models(languages);
+            detector.preload_language_models(&languages);
         }
 
         detector
