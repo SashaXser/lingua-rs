@@ -122,4 +122,4 @@ jobs:
         run: cargo +nightly tarpaulin --lib --ignore-config --ignore-panics --ignore-tests --exclude-files src/python.rs src/script.rs src/wasm.rs src/bin/accuracy_reports.rs --verbose --timeout 120 --out xml
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
