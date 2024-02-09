@@ -251,33 +251,15 @@ impl LanguageDetector {
     ) -> Option<Language> {
         let confidence_values =
             self.compute_language_confidence_values_for_languages(text, languages);
-
-        if confidence_values.is_empty() {
-            return None;
+    
+        match confidence_values.as_slice() {
+            [(most_likely_language, most_likely_language_probability), (_, second_most_likely_language_probability), ..] 
+                if (most_likely_language_probability - second_most_likely_language_probability).abs() >= f64::EPSILON
+                && (most_likely_language_probability - second_most_likely_language_probability) >= self.minimum_relative_distance => {
+                    Some(*most_likely_language)
+                },
+            _ => None,
         }
-
-        let (most_likely_language, most_likely_language_probability) =
-            &confidence_values.first().unwrap();
-
-        if confidence_values.len() == 1 {
-            return Some(*most_likely_language);
-        }
-
-        let (_, second_most_likely_language_probability) = &confidence_values.get(1).unwrap();
-
-        if (most_likely_language_probability - second_most_likely_language_probability).abs()
-            < f64::EPSILON
-        {
-            return None;
-        }
-
-        if (most_likely_language_probability - second_most_likely_language_probability)
-            < self.minimum_relative_distance
-        {
-            return None;
-        }
-
-        Some(*most_likely_language)
     }
 
     /// Attempts to detect multiple languages in mixed-language text.
